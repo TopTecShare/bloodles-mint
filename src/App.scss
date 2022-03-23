@@ -3,13 +3,20 @@
 }
 
 .home {
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
+
+  @media (max-width: 412px) {
+    font-size: 0.6em;
+  }
   h1,
   h2,
   h3,
   h4 {
     margin: 0;
     padding: 0;
-    line-height: 1.1em;
+    line-height: 1.3em;
     font-family: "Baloo";
     font-style: normal;
     font-weight: 400;
@@ -22,14 +29,14 @@
   }
 
   h1 {
-    font-size: 65px;
+    font-size: 4em;
   }
   h2 {
-    font-size: 60px;
+    font-size: 3.5em;
   }
 
   h3 {
-    font-size: 45px;
+    font-size: 2.5em;
   }
 
   .profile,
@@ -44,7 +51,7 @@
     font-family: "Baloo";
     font-style: normal;
     font-weight: 400;
-    font-size: 34px;
+    font-size: 2em;
     /* identical to box height */
 
     background: #ffffff;

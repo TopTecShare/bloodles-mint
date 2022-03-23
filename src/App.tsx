@@ -1,24 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Header from './components/header';
+import './App.scss';
+import Woman from './assets/woman.svg'
+import Man from './assets/man.svg'
+import Profile from './assets/profile.svg'
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header />
+      <div className='man'><img src={Man} alt="man"/></div>
+      <div className='woman'><img src={Woman} alt="woman"/></div>
+      <div className='home'>
+        <h1>
+          Mint your Bloodle 
+        </h1>
+        <h3>
+          Pre Sale in 00:10:10:10 
+        </h3>
+        <div className='profile'><img src={Profile} alt="profile"/></div>
+        <h2>
+          2000/4444 
+        </h2>
+        <h3>
+          0.0X ETH + GAS
+        </h3>
+        <div><button onClick={() => console.log("dfdf")}>Connect Wallet</button></div>
+      </div>
     </div>
   );
 }

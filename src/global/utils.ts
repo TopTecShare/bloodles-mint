@@ -42,7 +42,7 @@ export const formatError = (msg : String, comment = "") => {
     case "execution reverted: Burn timestamp not set":
       return `Burning start time is not set yet!`;
     default:
-      return msg;
+      return msg.split('execution reverted: ').join('');
   }
 };
 

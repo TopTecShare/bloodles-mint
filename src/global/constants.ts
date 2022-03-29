@@ -3,7 +3,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 export const BIG_ZERO = BigNumber.from("0");
 
 // === Addresses ===
-export const BloodlesNFT = "0x0c7ed209543bbfa87e4d8876986a936ec207cc48";
+export const BloodlesNFT = "0x0C7Ed209543BBfa87E4d8876986a936EC207cc48";
 
 // === Merkle Tree ===
 export const MERKLE_TREE_DATA_3 = {

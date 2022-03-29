@@ -10,7 +10,7 @@ export default function useEstimateGas() {
 
   const OGmintGas = async (...args : any) => {
     const contract = new Contract(BloodlesNFT, abi, library?.getSigner());
-    const estimatedGas = await contract.estimateGas.OGmintMint(
+    const estimatedGas = await contract.estimateGas.OGmint(
       ...args
     );
 
@@ -19,7 +19,7 @@ export default function useEstimateGas() {
 
   const BLmintGas = async (...args : any) => {
     const contract = new Contract(BloodlesNFT, abi, library?.getSigner());
-    const estimatedGas = await contract.estimateGas.BLmintMint(
+    const estimatedGas = await contract.estimateGas.BLmint(
       ...args
     );
 

@@ -75,37 +75,37 @@ export function useMintStart() {
   return Number(startTime.toString());
 }
 
-export function useOGPrice() {
+export function useOGPrice(amount : Number) {
   const abi = new Interface(BloodlesNFTABI);
   const price = useContractCall({
     abi,
     address: BloodlesNFT,
-    method: "OGPRICE",
-    args: [],
+    method: "OGprice",
+    args: [amount],
   }) ?? [BIG_ZERO];
 
   return price;
 }
 
-export function useWLPrice() {
+export function useBLPrice(amount : Number) {
   const abi = new Interface(BloodlesNFTABI);
   const price = useContractCall({
     abi,
     address: BloodlesNFT,
-    method: "WLPRICE",
-    args: [],
+    method: "BLprice",
+    args: [amount],
   }) ?? [BIG_ZERO];
 
   return price;
 }
 
-export function usePrice() {
+export function usePrice(amount : Number) {
   const abi = new Interface(BloodlesNFTABI);
   const price = useContractCall({
     abi,
     address: BloodlesNFT,
-    method: "PRICE",
-    args: [],
+    method: "price",
+    args: [amount],
   }) ?? [BIG_ZERO];
 
   return price;

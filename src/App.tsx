@@ -35,7 +35,7 @@ const App: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [message, setMessage] = useState("Sale is not started yet.");
+  const [message, setMessage] = useState("Should connect wallet to mint.");
   const [mintAmount, setMintAmount] = useState(1);
   const { account } = useEthers();
   const { PLmintGas, BLmintGas, OGmintGas } = useEstimateGas();

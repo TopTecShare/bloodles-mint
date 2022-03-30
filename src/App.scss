@@ -15,7 +15,8 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  .soldout {
     margin: 0;
     padding: 0;
     line-height: 1.3em;
@@ -30,6 +31,9 @@
     color: #ffffff;
   }
 
+  .soldout {
+    font-size: 6em;
+  }
   h1 {
     font-size: 4em;
   }
@@ -71,7 +75,8 @@
   }
 
   button,
-  .amount {
+  .amount,
+  .opensea {
     font-family: "Baloo";
     font-style: normal;
     font-weight: 400;
@@ -91,6 +96,11 @@
     &:active {
       background: #f5f5c1;
     }
+  }
+
+  .opensea {
+    text-decoration: none;
+    width: fit-content;
   }
 
   .amount {

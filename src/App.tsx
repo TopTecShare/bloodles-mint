@@ -2,8 +2,8 @@ import React from "react";
 import Header from "./components/header";
 import { useEthers } from "@usedapp/core";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import { formatAmount, formatError } from "./global/utils";
+import { useState, useEffect, useRef } from "react";
+import { formatAmount, formatError, convertToDuration } from "./global/utils";
 import WalletConnectionModal from "./components/walletmodal";
 import {
   usePLMint,
@@ -12,6 +12,11 @@ import {
   useBLPrice,
   useOGMint,
   useOGPrice,
+  useMaxSupply,
+  useTotalSupply,
+  useOGMintStart,
+  useBLMintStart,
+  useMintStart,
 } from "./hooks/useBloodlesNFT";
 import useEstimateGas from "./hooks/useEstimateGas";
 import { getOGproof, getBLproof, getOGroot, getBLroot } from "./utils";
@@ -22,18 +27,78 @@ import Man from "./assets/man.svg";
 import Profile from "./assets/profile.svg";
 
 const App: React.FC = () => {
+  const OGmintstart = useOGMintStart();
+  const BLmintstart = useBLMintStart();
+  const mintstart = useMintStart();
+  const maxSupply = useMaxSupply();
+  const totalSupply = useTotalSupply();
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState(4);
+  const [status, setStatus] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [message, setMessage] = useState("Sale is not started yet.");
   const [mintAmount, setMintAmount] = useState(1);
   const { account } = useEthers();
   const { PLmintGas, BLmintGas, OGmintGas } = useEstimateGas();
   const { state: PLstate, PLmint } = usePLMint();
   const { state: BLstate, BLmint } = useBLMint();
   const { state: OGstate, OGmint } = useOGMint();
-  const [mintCost] = usePrice(mintAmount);
-  const [BLmintCost] = useBLPrice(mintAmount);
-  const [OGmintCost] = useBLPrice(mintAmount);
+  const OGmintCost = useOGPrice(mintAmount);
+  const BLmintCost = useBLPrice(mintAmount);
+  const mintCost = usePrice(mintAmount);
+  const intervalRef = useRef<Number>();
 
+  useEffect(() => {
+    if (!intervalRef.current) {
+      intervalRef.current = window.setInterval(
+        () => setCurrentTime(Math.floor(new Date().getTime() / 1000)),
+        1000
+      );
+    }
+    return () => {
+      clearInterval(Number(intervalRef.current));
+    };
+  }, []);
+
+  useEffect(() => {
+    const current = Date.now() / 1000;
+    if (totalSupply == maxSupply) setStatus(4);
+    else if (current > mintstart) {
+      setStatus(3);
+      const { days, hours, minutes, seconds } = convertToDuration(
+        1649628992,
+        currentTime
+      );
+      setMessage(`Sale for ${days}:${hours}:${minutes}:${seconds}`);
+    } else if (current > BLmintstart) {
+      setStatus(2);
+      const { days, hours, minutes, seconds } = convertToDuration(
+        mintstart,
+        currentTime
+      );
+      setMessage(`Pre Sale for ${days}:${hours}:${minutes}:${seconds}`);
+    } else if (current > OGmintstart) {
+      setStatus(1);
+      const { days, hours, minutes, seconds } = convertToDuration(
+        BLmintstart,
+        currentTime
+      );
+      setMessage(`OG Sale for ${days}:${hours}:${minutes}:${seconds}`);
+    } else {
+      setStatus(0);
+      const { days, hours, minutes, seconds } = convertToDuration(
+        OGmintstart,
+        currentTime
+      );
+      setMessage(`Pre Sale In ${days}:${hours}:${minutes}:${seconds}`);
+    }
+  }, [
+    OGmintstart,
+    BLmintstart,
+    mintstart,
+    totalSupply,
+    maxSupply,
+    currentTime,
+  ]);
   const onPLMint = async () => {
     try {
       const estimatedGas = await PLmintGas(mintAmount, { value: mintCost });
@@ -48,8 +113,6 @@ const App: React.FC = () => {
 
   const onBLMint = async () => {
     try {
-      // console.log(getBLproof(account));
-      getBLroot();
       const estimatedGas = await BLmintGas(getBLproof(account), mintAmount, {
         value: BLmintCost,
       });
@@ -67,8 +130,6 @@ const App: React.FC = () => {
 
   const onOGMint = async () => {
     try {
-      // console.log(getOGproof(account));
-      getOGroot();
       const estimatedGas = await OGmintGas(getOGproof(account), mintAmount, {
         value: OGmintCost,
       });
@@ -95,58 +156,93 @@ const App: React.FC = () => {
         <img src={Woman} alt="woman" />
       </div>
       <div className="container">
-        <div className="home">
-          <h1>Mint your Bloodle</h1>
-          <h3>Pre Sale in 00:10:10:10</h3>
+        <div className="home" style={{ width: status == 4 ? "100%" : "50%" }}>
+          {status !== 4 ? (
+            <>
+              <h1>Mint your Bloodle</h1>
+              <h3>{message}</h3>
+            </>
+          ) : (
+            <div className="soldout">SOLD OUT</div>
+          )}
+
           <div className="profile">
             <img src={Profile} alt="profile" />
           </div>
-          <h2>2000/4444</h2>
-          <div className="nomargin">
-            {account ? (
-              <div className="block">
-                <div className="between">
-                  <button
-                    className="minus"
-                    onClick={() => {
-                      if (mintAmount > 1) setMintAmount(mintAmount - 1);
-                    }}
-                  >
-                    -
-                  </button>
-                  <div className="amount">{mintAmount}</div>
-                  <button
-                    className="plus"
-                    onClick={() => {
-                      setMintAmount(mintAmount + 1);
-                    }}
-                  >
-                    +
-                  </button>
-                </div>
-                <button onClick={onOGMint}>Mint your Bloodle</button>
+          <h2>
+            {Number(totalSupply)}/{Number(maxSupply)}
+          </h2>
+          {status !== 4 ? (
+            <>
+              <div className="nomargin">
+                {account && status > 0 && status < 4 ? (
+                  <div className="block">
+                    <div className="between">
+                      <button
+                        className="minus"
+                        onClick={() => {
+                          if (mintAmount > 1) setMintAmount(mintAmount - 1);
+                        }}
+                      >
+                        -
+                      </button>
+                      <div className="amount">{mintAmount}</div>
+                      <button
+                        className="plus"
+                        onClick={() => {
+                          setMintAmount(mintAmount + 1);
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      onClick={
+                        { 1: onOGMint, 2: onBLMint, 3: onPLMint }[status]
+                      }
+                    >
+                      Mint your Bloodle
+                    </button>
+                  </div>
+                ) : (
+                  <button onClick={() => setOpen(true)}>Connect Wallet</button>
+                )}
               </div>
-            ) : (
-              <button onClick={() => setOpen(true)}>Connect Wallet</button>
-            )}
-          </div>
-          <h3>0.0X ETH + GAS</h3>
+              <h3>
+                {Number(
+                  [0, OGmintCost, BLmintCost, mintCost, 0][status] / 10 ** 18
+                )}
+                X ETH + GAS
+              </h3>
+            </>
+          ) : (
+            <>
+              <h2>Buy a Bloodle on Opensea</h2>
+              <div>
+                <a className="opensea" href="https://opensea.io">
+                  Opensea
+                </a>
+              </div>
+            </>
+          )}
         </div>
-        <div className="description">
-          <div>
-            <h1>TL;DR</h1>
-            <p>
-              A unique hand-drawn collection of black-themed doodles, here to
-              support the black- and minority community on the blockchain. We
-              are not just another PFP NFT, but also a P2E Game in the theme of
-              a real-life simulation. Once minted and revealed, holders will be
-              able to send their Bloodles to work, to study, or to "hustle" and
-              earn $BLM doing so. Bloodles can also start a Family by staking a
-              male and a female Bloodle for 9 Bloodle months ( 1 Bloodle month =
-              3 days IRL).
-            </p>
+        {status != 4 && (
+          <div className="description">
+            <div>
+              <h1>TL;DR</h1>
+              <p>
+                A unique hand-drawn collection of black-themed doodles, here to
+                support the black- and minority community on the blockchain. We
+                are not just another PFP NFT, but also a P2E Game in the theme
+                of a real-life simulation. Once minted and revealed, holders
+                will be able to send their Bloodles to work, to study, or to
+                "hustle" and earn $BLM doing so. Bloodles can also start a
+                Family by staking a male and a female Bloodle for 9 Bloodle
+                months ( 1 Bloodle month = 3 days IRL).
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

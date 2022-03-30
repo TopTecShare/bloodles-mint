@@ -11,7 +11,7 @@ import { BIG_ZERO, BloodlesNFT } from "../global/constants";
 
 export function useOGMint() {
   const abi = new Interface(BloodlesNFTABI);
-  const contract : any = new Contract(BloodlesNFT, abi);
+  const contract: any = new Contract(BloodlesNFT, abi);
   const { send, state } = useContractFunction(contract, "OGmint");
   return {
     state,
@@ -21,7 +21,7 @@ export function useOGMint() {
 
 export function useBLMint() {
   const abi = new Interface(BloodlesNFTABI);
-  const contract : any = new Contract(BloodlesNFT, abi);
+  const contract: any = new Contract(BloodlesNFT, abi);
   const { send, state } = useContractFunction(contract, "BLmint");
   return {
     state,
@@ -31,7 +31,7 @@ export function useBLMint() {
 
 export function usePLMint() {
   const abi = new Interface(BloodlesNFTABI);
-  const contract : any = new Contract(BloodlesNFT, abi);
+  const contract: any = new Contract(BloodlesNFT, abi);
   const { send, state } = useContractFunction(contract, "PLmint");
   return {
     state,
@@ -51,12 +51,12 @@ export function useOGMintStart() {
   return Number(startTime.toString());
 }
 
-export function useWLMintStart() {
+export function useBLMintStart() {
   const abi = new Interface(BloodlesNFTABI);
   const startTime = useContractCall({
     abi,
     address: BloodlesNFT,
-    method: "WLmintStart",
+    method: "BLmintStart",
     args: [],
   }) ?? [BIG_ZERO];
 
@@ -75,9 +75,9 @@ export function useMintStart() {
   return Number(startTime.toString());
 }
 
-export function useOGPrice(amount : Number) {
+export function useOGPrice(amount: Number) {
   const abi = new Interface(BloodlesNFTABI);
-  const price = useContractCall({
+  const [price] = useContractCall({
     abi,
     address: BloodlesNFT,
     method: "OGprice",
@@ -87,9 +87,9 @@ export function useOGPrice(amount : Number) {
   return price;
 }
 
-export function useBLPrice(amount : Number) {
+export function useBLPrice(amount: Number) {
   const abi = new Interface(BloodlesNFTABI);
-  const price = useContractCall({
+  const [price] = useContractCall({
     abi,
     address: BloodlesNFT,
     method: "BLprice",
@@ -99,9 +99,9 @@ export function useBLPrice(amount : Number) {
   return price;
 }
 
-export function usePrice(amount : Number) {
+export function usePrice(amount: Number) {
   const abi = new Interface(BloodlesNFTABI);
-  const price = useContractCall({
+  const [price] = useContractCall({
     abi,
     address: BloodlesNFT,
     method: "price",
@@ -109,6 +109,30 @@ export function usePrice(amount : Number) {
   }) ?? [BIG_ZERO];
 
   return price;
+}
+
+export function useMaxSupply() {
+  const abi = new Interface(BloodlesNFTABI);
+  const [MAX_ELEMENTS] = useContractCall({
+    abi,
+    address: BloodlesNFT,
+    method: "MAX_ELEMENTS",
+    args: [],
+  }) ?? [BIG_ZERO];
+
+  return MAX_ELEMENTS;
+}
+
+export function useTotalSupply() {
+  const abi = new Interface(BloodlesNFTABI);
+  const [totalSupply] = useContractCall({
+    abi,
+    address: BloodlesNFT,
+    method: "totalSupply",
+    args: [],
+  }) ?? [BIG_ZERO];
+
+  return totalSupply;
 }
 
 // export function useTokens(address) {

@@ -25,10 +25,8 @@ if (typeof window !== "undefined") if (!window.Buffer) window.Buffer = Buffer;
 
 ReactDOM.render(
   <Router>
-    <DAppProvider config={config}>
-      <App />
-      <ToastContainer />
-    </DAppProvider>
+    <ToastContainer />
+    <DAppProvider config={config} children={<App />} />
   </Router>,
   document.getElementById("root")
 );

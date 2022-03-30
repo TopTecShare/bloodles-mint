@@ -43,7 +43,7 @@
   "stream-browserify": "^3.0.0",
   "react-app-rewired": "^2.2.1",
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

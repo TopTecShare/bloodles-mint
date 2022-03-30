@@ -61,6 +61,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const current = Date.now() / 1000;
+    if (maxSupply == 0) return;
     if (totalSupply == maxSupply) setStatus(4);
     else if (current > mintstart) {
       setStatus(3);

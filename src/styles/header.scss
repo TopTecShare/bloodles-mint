@@ -1,11 +1,52 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  margin: 2em 0 0 0;
+
+  @media (max-width: 600px) {
+    display: block;
+    justify-content: center;
+  }
+}
+
 .header {
-  margin-left: 2em;
   img {
     margin: 0 1em;
   }
-  @media (max-width:768px) {
-    margin:2em;
+  @media (max-width: 600px) {
+    margin: 2em;
     display: flex;
     justify-content: center;
+  }
+}
+
+.wallet {
+  font-family: "Baloo";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2em;
+  color: #ffffff;
+
+  .address {
+    padding: 0 1em;
+
+    border: 5px solid #ffffff;
+    box-sizing: border-box;
+    border-radius: 20px;
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  @media (max-width: 412px) {
+    font-size: 1.3rem;
+    .address {
+      width: 60%;
+    }
   }
 }

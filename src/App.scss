@@ -1,15 +1,17 @@
 .app {
-  margin: 2em;
+  margin: 0 2em;
+}
+
+.container {
+  display: flex;
+
+  .home,
+  .description {
+    width: 50%;
+  }
 }
 
 .home {
-  @media (max-width: 768px) {
-    font-size: 0.8em;
-  }
-
-  @media (max-width: 412px) {
-    font-size: 0.6em;
-  }
   h1,
   h2,
   h3,
@@ -47,7 +49,29 @@
     padding: 2em;
   }
 
-  button {
+  .nomargin {
+    padding: 0;
+  }
+  .block {
+    display: block;
+    padding: 0;
+  }
+
+  .between {
+    justify-content: space-between;
+    margin: 1em 0;
+    padding: 2px;
+  }
+
+  .plus,
+  .minus {
+    background: #ffffff;
+    border-radius: 10px;
+    font-size: 2em;
+  }
+
+  button,
+  .amount {
     font-family: "Baloo";
     font-style: normal;
     font-weight: 400;
@@ -68,26 +92,166 @@
       background: #f5f5c1;
     }
   }
+
+  .amount {
+    background: #ffffff;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 0.1em 1.8em;
+    cursor: inherit;
+  }
+}
+
+.description {
+  div {
+    padding-right: 25%;
+    margin-top: 20%;
+  }
+  h1,
+  p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.7em;
+    font-family: "Baloo";
+    font-style: normal;
+    font-weight: 400;
+    display: flex;
+    align-items: flex-end;
+
+    color: #ffffff;
+  }
+
+  h1 {
+    font-size: 4em;
+  }
+
+  p {
+    font-size: 1.5em;
+  }
 }
 
 .man,
 .woman {
   display: none;
+  z-index: -999;
 }
+
+@media (max-width: 1200px) {
+  .description {
+    div {
+      padding-right: 15%;
+      margin-top: 0%;
+    }
+    h1,
+    p {
+      margin: 0;
+      padding: 0;
+      line-height: 1.7em;
+      font-family: "Baloo";
+      font-style: normal;
+      font-weight: 400;
+      display: flex;
+      align-items: flex-end;
+
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: 4em;
+      line-height: 1em;
+    }
+
+    p {
+      font-size: 1.5em;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .home,
+    .description {
+      width: 100%;
+    }
+
+    .description {
+      width: 100%;
+      div {
+        padding: 20px 20%;
+      }
+      h1,
+      p {
+        justify-content: center;
+        line-height: 1.3em;
+      }
+    }
+  }
+}
+
 @media (min-width: 1200px) {
   .man,
   .woman {
     display: block;
   }
   .man {
-    position: absolute;
-    left: 10%;
+    position: fixed;
+    left: 0;
     bottom: 0;
   }
 
   .woman {
-    position: absolute;
-    right: 7%;
-    top: 12%;
+    position: fixed;
+    right: 2%;
+    top: 10%;
+  }
+}
+
+@media (max-width: 1440px) {
+  .man,
+  .woman {
+    img {
+      width: 80%;
+    }
+  }
+
+  .woman {
+    right: 0%;
+    top: 10%;
+  }
+
+  .home {
+    font-size: 12px;
+    h1,
+    h2,
+    h3,
+    h4 {
+      line-height: 1em;
+    }
+    .profile,
+    div {
+      padding: 1em;
+    }
+  }
+}
+
+.home {
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
+
+  @media (max-width: 412px) {
+    font-size: 0.6em;
+  }
+}
+
+@media (max-width: 768px) {
+  .description {
+    div {
+      padding: 20px 5% !important;
+    }
   }
 }

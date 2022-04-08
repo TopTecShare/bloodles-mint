@@ -63,10 +63,10 @@ export const getBLproof: any = (address = "") => {
   return hexProof;
 };
 
-export const getOGroot = () => {
+export const getOGroot: any = () => {
   return merkleTreeOG.getRoot(); //.toString("hex");
 };
 
-export const getBLroot = () => {
+export const getBLroot: any = () => {
   return merkleTreeBL; //.getRoot().toString("hex");
 };
